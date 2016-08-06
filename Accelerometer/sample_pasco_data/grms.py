@@ -5,7 +5,7 @@ from scipy import fft
 
 import numpy as np
 
-def grms(readings):
+def rms(readings):
 	
 	sum_squares=0
 	for i in range(0,len(readings)):

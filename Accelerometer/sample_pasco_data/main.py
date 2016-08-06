@@ -5,7 +5,7 @@ script , input = argv
 
 
 y = grms.read_data(input,1)
-mean = grms.grms(y)
+mean = grms.rms(y)
 print "grms = ", mean
 x = grms.plotf(y,mean)
 
