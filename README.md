@@ -1,1 +1,0 @@
-# HALTHASSThis is directory for the HALT/HASS project.
