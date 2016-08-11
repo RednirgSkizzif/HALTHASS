@@ -3,6 +3,7 @@ import time, threading, sys
 import serial
 import numpy as np
 import glob
+import csv
 """
 Hyoyeon Lee 2016.08.03
 [Reference] http://forum.arduino.cc/index.php?topic=137635.15;wap2
@@ -31,13 +32,16 @@ print '	If already connected, UNPLUG and then Reconnect it.'
 a = raw_input( ' tab [Enter] key if you connect the port ')
 if a is not None:
 	print 'Finding the address of the port'
-ACMport  = glob.glob('/dev/ttyA*')
+ACMport  = glob.glob('/dev/tty*')
 for item in ACMport:
 	try:    due = serial.Serial(item)
 	except: print ''
 print 'The Arduino is Connected :'
 print due
-
+#----------------------------
+#ofile = open('datalog.csv',"wb")
+#writer = csv.writer(ofile,delimiter=',')
+#-------------------------------------------DYLAN
 #_________________________Set Variables from user_________________________#
 #T       = input('Sampling Time (T) with T <= 1[sec]) :  ')
 #t_range = input('Plot Range (t_range)  with %f[sec] <= t_range < 5[sec]:  ' %(T))
@@ -133,7 +137,6 @@ class SerialReader(threading.Thread):
         	    	    digit = self.buff_digit  [self.ptr-num :self.ptr  ].copy()
 			    grms  = self.buff_rms    [self.ptr/M-10*n :self.ptr/M].copy()
         	    	rate = self.sps
- 
         		return np.linspace(0,t_range,num),data,digit,np.linspace(0,t_range,10*n),grms
 #_________________________________________________________________#	
 	def exit(self):
