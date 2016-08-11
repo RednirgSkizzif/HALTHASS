@@ -3,6 +3,7 @@ import time, threading, sys
 import serial
 import numpy as np
 import glob
+import csv
 """
 Hyoyeon Lee 2016.08.04
 [Reference] http://forum.arduino.cc/index.php?topic=137635.15;wap2
@@ -37,6 +38,10 @@ for item in ACMport:
 	except: print ''
 print 'The Arduino is Connected :'
 print due
+#------------------------------
+ofile = open('dataLog.csv',"wb")
+writer = csv.writer(ofile,delimter=',')
+#-----------------------------
 
 #_________________________Set Variables from user_________________________#
 #T       = input('Sampling Time (T) with T <= 1[sec]) :  ')
@@ -85,7 +90,8 @@ class SerialReader(threading.Thread):
         	            		break
         	    	port.flush()
 			org    = port.read(5000*2)		#eliminate incorrect data reading that occurs 0.1s    
-			org    = port.read(self.M*2)			#read data from Due    
+			org    = port.read(self.M*2)			#read data from Due
+			writer.writerow(org)#DATALOGGING-DYLAN
         	    	mod1   = np.fromstring(org,dtype=np.uint16)     #convert string to integer
 			#leading= mod1[0]>>12			        #check the channel ID of the first data
 			mod2   = mod1&4095				#remove channel ID and get only acceleration values
