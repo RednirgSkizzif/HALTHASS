@@ -20,7 +20,7 @@ def read_data(input_file,rowNum):
             try :
                 list.append(float(row[rowNum]))
             except ValueError:
-                print("Jaguoff")
+                print("Bad Point")
 #        print(row[0])
 #        print(row[0],row[1],row[2],)
     return list
@@ -67,18 +67,26 @@ def plotf(y,grms):
     sum=0
     for i in range(0,len(Y)):
         sum=sum+Y[i]
+    
     print(sum)
     #renormalization
     Y=Y/sum
     Y=Y*grms
     
-    plt.plot(freq, abs(Y), 'r-')
+    plt.plot(freq,abs(Y), 'r-')
     plt.xlabel('freq (Hz)')
     plt.ylabel('|Y(freq)|')
-        
+    Integrate(Y)
+    print(freq)
     plt.show()
 
+def Integrate(list):
 
+	sum=0
+	for i in range(0,len(list)):
+		sum = sum+list[i]
+    
+	print "sum =", sum
 
 
 
