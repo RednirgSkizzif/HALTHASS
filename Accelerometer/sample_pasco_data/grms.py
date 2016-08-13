@@ -66,27 +66,31 @@ def plotf(y,grms):
     
     sum=0
     for i in range(0,len(Y)):
-        sum=sum+Y[i]
+        sum=sum+abs(Y[i])
     
     print(sum)
-    #renormalization
+#   renormalization
     Y=Y/sum
     Y=Y*grms
     
     plt.plot(freq,abs(Y), 'r-')
     plt.xlabel('freq (Hz)')
     plt.ylabel('|Y(freq)|')
-    Integrate(Y)
-    print(freq)
+    print "total integral = " , Integrate(Y,0,24998)
+    print "5000-10000 integral = " ,Integrate(Y,5000,10000)
+    print "10000-15000 integral = " , Integrate(Y,10000,15000)
+    print "15000-20000 integral = " , Integrate(Y,15000,20000)
+#print(freq)
     plt.show()
+    return Y
 
-def Integrate(list):
+def Integrate(list,min,max):
 
 	sum=0
-	for i in range(0,len(list)):
-		sum = sum+list[i]
+	for i in range(min,max):
+		sum = sum+abs(list[i])
     
-	print "sum =", sum
+	return sum
 
 
 

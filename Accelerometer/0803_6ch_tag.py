@@ -31,7 +31,7 @@ print '	If already connected, UNPLUG and then Reconnect it.'
 a = raw_input( ' tab [Enter] key if you connect the port ')
 if a is not None:
 	print 'Finding the address of the port'
-ACMport  = glob.glob('/dev/ttyA*')
+ACMport  = glob.glob('/dev/tty*')
 for item in ACMport:
 	try:    due = serial.Serial(item)
 	except: print ''
