@@ -1,4 +1,6 @@
 import pyqtgraph as pg
+import pyqtgraph.exporters
+import time
 import time, threading, sys
 import serial
 import numpy as np
@@ -162,6 +164,7 @@ z1=plt1.plot(pen=(  0,  0,255),name='z1(PinA2)')
 x2=plt1.plot(pen=(200,200,  0),name='x2(PinA3)')
 y2=plt1.plot(pen=(  0,200,200),name='y2(PinA4)')
 z2=plt1.plot(pen=(200,  0,200),name='z2(PinA5)')
+exporter = pg.exporters.CSVExporter(plt1)#here is the exporter object
 
 """
 #Linear Region slowers the data aquisition.
@@ -191,7 +194,8 @@ gz2=plt3.plot(pen=(200,  0,200))
 thread = SerialReader(due,M,N)
 thread.start()
 #___________________________________________________________________#
-def update():                
+def update():
+	
 	global due,thread,lr
 	global plt1,   x1, y1, z1, x2, y2, z2
 	global plt2,  rx1,ry1,rz1,rx2,ry2,rz2
@@ -220,7 +224,12 @@ def update():
 	gx2.setData(tgrms,grms[:,2])
 	gy2.setData(tgrms,grms[:,1])
 	gz2.setData(tgrms,grms[:,0])
-	
+	now = int(round(time.time()))
+
+	if (now % 60)==0:
+		filename = "accelerometerData_%d.csv" % now
+		exporter.export(filename)
+
 	if not plt1.isVisible():
 		thread.exit()
 	        timer.stop()
@@ -229,7 +238,6 @@ def update():
 #___________________________________________________________________#
 timer = pg.QtCore.QTimer()                    
 timer.timeout.connect(update)
-
 
 #___________________________________________________________________#
 """
@@ -241,6 +249,8 @@ lr.sigRegionChanged.connect(updatePlot)
 plt2.sigXRangeChanged.connect(updateRegion)
 updatePlot()
 """
+
+
 timer.start(0)
 if sys.flags.interactive == 0:                  
     app.exec_()
