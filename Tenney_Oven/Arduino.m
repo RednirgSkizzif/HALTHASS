@@ -1,4 +1,5 @@
 classdef Arduino
+    %MATLAB
     %UNTITLED2 Summary of this class goes here
     %   Detailed explanation goes here
     
