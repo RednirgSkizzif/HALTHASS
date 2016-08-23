@@ -1,8 +1,10 @@
 import pyqtgraph as pg
-import time, threading, sys
+import time, threading, sys, os,fnmatch, shutil
 import serial
 import numpy as np
 import glob
+import pyqtgraph.exporters
+
 """
 [README]
 0. Let A0~A5 pins be grounded when not used
@@ -28,10 +30,10 @@ Revised 2016.08.11
 
 
 #____________________Find a port connected to Arduino________________________#
-print '	Connect the Arduino (USB port)Cable to PC.'
-print '	If already connected, UNPLUG and then Reconnect it.'
+print '		Connect the Arduino (USB port)Cable to PC.'
+print '		If already connected, UNPLUG and then Reconnect it.'
 
-a = raw_input( ' tab [Enter] key if you connect the port ')
+a = raw_input( '[User] press any key if you connect the port ')
 if a is not None:
 	print 'Finding the address of the port'
 ACMport  = glob.glob('/dev/ttyA*')
@@ -39,12 +41,12 @@ for item in ACMport:
 	try:    due = serial.Serial(item)
 	except: print ''
 print 'The Arduino is Connected :'
-print due
-
+print '       >>> %s' %due
+print ''
 
 #[USER]_______________________user_ch_sps_dt
 while True:
-	sps=input('Sampling rate of DUE board in [kHz]? (50 or 100?)')
+	sps=input('[User]Sampling rate of DUE (50 or 100[kHz])	: ')
 	if sps not in [50,100]:
 		print 'Not 50 or 100 [kHz]'
 	else:
@@ -54,25 +56,26 @@ user_ch_sps_dt =[[6,20E-6],[7,10E-6]]
 ch = user_ch_sps_dt[sps/50-1][0]
 dt = user_ch_sps_dt[sps/50-1][1]
 
-print 'Sampling Rate = %d [kHz], dt = %f [sec]' %(sps,dt)
+#print 'Sampling Rate = %d [kHz], dt = %f [sec]' %(sps,dt)
 
 
  
 #[USER]_______________________plot_type
-plot_rms = input( 'need to plot RMS?press 1(y)/0(n) : ')
+print ''
+plot_rms = input( '[User] RMS Plot (1(y)/0(n))	: ')
 if sps==50:
-	plot_lr  = input( 'need to plot ZoomIn?   1(y)/0(n) : ')
+	plot_lr  = input( '[User] ZoomIn Plot (1(y)/0(n))	: ')
 else:
 	print 'ZoomIn plot is not recommended for sps=%d [kHz]' %sps 
 	plot_lr  = input( 'still need to plot ZoomIn?   1(y)/0(n) : ')
-ymax     = input('Y max [g]:  ')
-t_range  = input('Plot Range in [sec] ? 1~5[sec]:  ')
+ymax     = input('[User] Plot Range (Y max [g])	: ')
+#t_range  = input('[User] Plot Range in [sec] (1~5[sec])	: ')
 #T        = input('Sampling Time (T) with T <= 1[sec]) :  ')
 #nCH      = input('Number of Accelerometers connected to Arduino (1~6) :  ')
 
-T      =1
+T      = 1
 nCH    = 6
-
+t_range= 1
 case=(plot_lr<<1)+plot_rms      # case 0-none/ 1-rms/ 2-lr/ 3-rms&lr 
 ndump = int((0.1*1E6)/(dt*1E6)) # dump first 0.1[s] data
 M     = int((T*1E6)/(dt*1E6))	# each reading        
@@ -80,7 +83,12 @@ n     = int(t_range/T)		# plot range
 N     = int(50*n)			# buffer length
 scaling  = 2.7365 		# [digits/g] for ADXL001-500z with Power=3.3V
 
-
+#[USER]_______________________DataLogging
+print ''
+DataLogging = input( '[User] DataLogging (1(y)/0(n))	 : ')
+if DataLogging ==1:
+	t_logging   = input( '[User] Logging Period[s]	 : ')
+	DataInfo    = raw_input('[User] Key info (pasco/hammer/test)	: ')
 
 #_________________________Threading_______________________________________#
 class SerialReader(threading.Thread):
@@ -195,6 +203,9 @@ z1=plt1.plot(pen=(  0,255,  0),name='z1(PinA2)')
 x2=plt1.plot(pen=(  0,  0,255),name='x2(PinA3)')
 y2=plt1.plot(pen=(165, 42, 42),name='y2(PinA4)')
 z2=plt1.plot(pen=(128,  0,128),name='z2(PinA5)')
+if DataLogging ==1:
+	exporter=pg.exporters.CSVExporter(plt1)
+
 
 if case==2  or case==3:
 	#Linear Region slowers the data aquisition.
@@ -227,7 +238,7 @@ if case==1 or case==3:
 	gx2=plt3.plot(pen=(  0,  0,255))
 	gy2=plt3.plot(pen=(165, 42, 42))
 	gz2=plt3.plot(pen=(128,  0,128))
-
+		
 t_data = [i*dt for i in range(0,n*M) ]
 t_grms = [i*T  for i in range(1,10*n+1)]
 #Start Program
@@ -251,6 +262,7 @@ def update():
 	y2.setData(t_data,data[:,4])
 	z2.setData(t_data,data[:,5])
 	"""
+	
 	if case==2 or case==3:
 		rx1.setData(t_data,data[:,0])
 		"""
@@ -269,6 +281,15 @@ def update():
 		gy2.setData(t_grms,grms[:,4])
 		gz2.setData(t_grms,grms[:,5])
 		"""
+	
+	if DataLogging==1:
+		timestamp=time.time()
+		now=int(round(timestamp))
+		if (now%t_logging)==0:
+			localDATE=time.strftime('%y%m%d'  ,time.localtime(timestamp))
+			localTIME=time.strftime('%H:%M:%S',time.localtime(timestamp))
+			filename='accData_'+localDATE+'_%s_'%DataInfo + localTIME+'.csv'
+			exporter.export(filename)
 	if not plt1.isVisible():
 		thread.exit()
 	        timer.stop()
