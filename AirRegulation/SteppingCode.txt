@@ -1,0 +1,96 @@
+# Setting up the code to run the Air Regulator for the HALT/HASS table.
+# Info on the regulator:
+# configure the serial connections (the parameters differs on the device you are connecting to)
+
+import serial
+
+ser = serial.Serial(
+	port='/dev/ttyUSB1', # Will need to define.
+	baudrate=19200,
+	parity=serial.PARITY_EVEN,
+	stopbits=serial.STOPBITS_TWO, # not sure what this is
+	bytesize=serial.SEVENBITS # not sure on this either
+)
+
+
+# Skeleton of what the loops should look like:
+    For x-amount of time(First Step) { 
+        Read Vrms value ;
+        Read pressure % value ; 
+        While Apoint < Vrms <Bpoint { # Not sure how we want to set this up
+            If Vrms > upper bound(+2grms) {
+                SetRegister to step down 1% ;
+                }
+             If Vrms < lower bound(-2grms) {
+                    SetRegister to step up 1%;
+                    }
+         For time > first step, break.
+
+For x-amount of time(Second Step) { 
+        Read Vrms value ;
+        Read pressure % value ; 
+        While Apoint < Vrms <Bpoint { # Not sure how we want to set this up
+            If Vrms > upper bound(+2grms) {
+                SetRegister to step down 1% ;
+                }
+             If Vrms < lower bound(-2grms) {
+                    SetRegister to step up 1%;
+                    }
+         For time > second step, break.
+
+For x-amount of time(Third Step) { 
+        Read Vrms value ;
+        Read pressure % value ; 
+        While Apoint < Vrms <Bpoint { # Not sure how we want to set this up
+            If Vrms > upper bound(+2grms) {
+                SetRegister to step down 1% ;
+                }
+             If Vrms < lower bound(-2grms) {
+                SetRegister to step up 1%;
+                    }
+         For time > third step, break.            
+
+For x-amount of time(Fourth Step) { 
+        Read Vrms value ;
+        Read pressure % value ; 
+        While Apoint < Vrms <Bpoint { # Not sure how we want to set this up
+            If Vrms > upper bound(+2grms) {
+                SetRegister to step down 1% ;
+                }
+             If Vrms < lower bound(-2grms) {
+                    SetRegister to step up 1%;
+                    }
+         For time > fourth step, break.
+
+For x-amount of time(Fifth Step) { 
+        Read Vrms value ;
+        Read pressure % value ; 
+        While Apoint < Vrms <Bpoint { # Not sure how we want to set this up
+            If Vrms > upper bound(+2grms) {
+                SetRegister to step down 1% ;
+                }
+             If Vrms < lower bound(-2grms) {
+                    SetRegister to step up 1%;
+                    }
+         For time > fifth step, break.
+For time > last step {
+          
+instrument.write_register(40050, 0, 1) # Registernumber, value, number of decimals for storage
+#Sets pressure to 0, kills gun.
+}
+
+
+
+# Example using minimal mod bus module in pySerial with device slave address 247, Starting register 40050 inlcuded
+
+import minimalmodbus
+
+instrument = minimalmodbus.Instrument('COMX', 247) # port name(Need to define), slave address (in decimal)
+
+## Read pressure (PV = ProcessValue) ##
+pressure = instrument.read_register(40050, 1) # Registernumber, number of decimals (how many decimals?)
+print pressure
+
+## Change temperature setpoint (SP) (Stepping the pressure ##
+NEW_PRESSURE = 
+instrument.write_register(40050, NEW_PRESSURE, 1) # Registernumber, value, number of decimals for storage
