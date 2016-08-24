@@ -78,8 +78,8 @@ nCH    = 6
 t_range= 1
 case=(plot_lr<<1)+plot_rms      # case 0-none/ 1-rms/ 2-lr/ 3-rms&lr 
 ndump = int((0.1*1E6)/(dt*1E6)) # dump first 0.1[s] data
-M     = int((T*1E6)/(dt*1E6))	# each reading        
-n     = int(t_range/T)		# plot range
+M     = int((T*1E6)/(dt*1E6))	# each reading       
+n     = int(t_range/T)		# plot range 
 N     = int(50*n)			# buffer length
 scaling  = 2.7365 		# [digits/g] for ADXL001-500z with Power=3.3V
 
@@ -169,13 +169,15 @@ class SerialReader(threading.Thread):
         	        	digit  = np.empty((num,nCH),dtype=np.uint16)
 				digit[       :num-ptr] = self.buff_digit[ptr-num:   ]
         	        	digit[num-ptr:       ] = self.buff_digit[       :ptr]
+        	    	else:
+				data  = self.buffer      [self.ptr-num :self.ptr  ].copy()
+				digit = self.buff_digit  [self.ptr-num :self.ptr  ].copy()
+			if (ptr/M-10*n)<0:
 				grms   = np.empty((10*n,nCH),dtype=np.float)
 				grms [       :10*n-ptr/M] = self.buff_rms  [ptr/M-10*n:     ]
 				grms [10*n-ptr/M:       ] = self.buff_rms  [       :ptr/M]
-        	    	else:
-        	    	    data  = self.buffer      [self.ptr-num :self.ptr  ].copy()
-        	    	    digit = self.buff_digit  [self.ptr-num :self.ptr  ].copy()
-			    grms  = self.buff_rms    [self.ptr/M-10*n :self.ptr/M].copy()
+			else:
+				grms  = self.buff_rms    [self.ptr/M-10*n :self.ptr/M].copy()
         	    	rate = self.sp
         		return data,digit,grms
 #_________________________________________________________________#	
@@ -232,12 +234,12 @@ if case==1 or case==3:
 
 	plt3=win.addPlot(title='grms')
 	plt3.setYRange(0,ymax)
-	gx1=plt3.plot(pen=(255,  0,  0))
-	gy1=plt3.plot(pen=(255,255,  0))
-	gz1=plt3.plot(pen=(  0,255,  0))
-	gx2=plt3.plot(pen=(  0,  0,255))
-	gy2=plt3.plot(pen=(165, 42, 42))
-	gz2=plt3.plot(pen=(128,  0,128))
+	gx1=plt3.plot(pen=(255,  0,  0),symbolBrush=(255,  0,  0),symbolPen='w')
+	gy1=plt3.plot(pen=(255,255,  0),symbolBrush=(255,255,  0),symbolPen='w')
+	gz1=plt3.plot(pen=(  0,255,  0),symbolBrush=(  0,255,  0),symbolPen='w')
+	gx2=plt3.plot(pen=(  0,  0,255),symbolBrush=(  0,  0,255),symbolPen='w')
+	gy2=plt3.plot(pen=(165, 42, 42),symbolBrush=(165, 42, 42),symbolPen='w')
+	gz2=plt3.plot(pen=(128,  0,128),symbolBrush=(128,  0,128),symbolPen='w')
 		
 t_data = [i*dt for i in range(0,n*M) ]
 t_grms = [i*T  for i in range(1,10*n+1)]
