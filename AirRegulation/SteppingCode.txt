@@ -1,8 +1,10 @@
+
 # Setting up the code to run the Air Regulator for the HALT/HASS table.
 # Info on the regulator:
 # configure the serial connections (the parameters differs on the device you are connecting to)
 
 import serial
+import minimalmodbus
 
 ser = serial.Serial(
 	port='/dev/ttyUSB1', # Will need to define.
@@ -12,11 +14,18 @@ ser = serial.Serial(
 	bytesize=serial.SEVENBITS # not sure on this either
 )
 
+#Defining the QB3 Regulator (Is there a name on the device that I need to call it instead of instrument?)
+instrument = minimalmodbus.Instrument('COMX', 247) # port name(Need to define), slave address (in decimal)
 
 # Skeleton of what the loops should look like:
     For x-amount of time(First Step) { 
         Read Vrms value ;
-        Read pressure % value ; 
+        Read pressure % value ;
+
+## Read pressure (PV = ProcessValue) ##
+pressure = instrument.read_register(40050, 1) # Registernumber, number of decimals (how many decimals?)
+print pressure
+
         While Apoint < Vrms <Bpoint { # Not sure how we want to set this up
             If Vrms > upper bound(+2grms) {
                 SetRegister to step down 1% ;
@@ -29,6 +38,11 @@ ser = serial.Serial(
 For x-amount of time(Second Step) { 
         Read Vrms value ;
         Read pressure % value ; 
+
+## Read pressure (PV = ProcessValue) ##
+pressure = instrument.read_register(40050, 1) # Registernumber, number of decimals (how many decimals?)
+print pressure
+
         While Apoint < Vrms <Bpoint { # Not sure how we want to set this up
             If Vrms > upper bound(+2grms) {
                 SetRegister to step down 1% ;
@@ -41,6 +55,11 @@ For x-amount of time(Second Step) {
 For x-amount of time(Third Step) { 
         Read Vrms value ;
         Read pressure % value ; 
+
+## Read pressure (PV = ProcessValue) ##
+pressure = instrument.read_register(40050, 1) # Registernumber, number of decimals (how many decimals?)
+print pressure
+
         While Apoint < Vrms <Bpoint { # Not sure how we want to set this up
             If Vrms > upper bound(+2grms) {
                 SetRegister to step down 1% ;
@@ -53,6 +72,11 @@ For x-amount of time(Third Step) {
 For x-amount of time(Fourth Step) { 
         Read Vrms value ;
         Read pressure % value ; 
+
+## Read pressure (PV = ProcessValue) ##
+pressure = instrument.read_register(40050, 1) # Registernumber, number of decimals (how many decimals?)
+print pressure
+
         While Apoint < Vrms <Bpoint { # Not sure how we want to set this up
             If Vrms > upper bound(+2grms) {
                 SetRegister to step down 1% ;
@@ -64,7 +88,12 @@ For x-amount of time(Fourth Step) {
 
 For x-amount of time(Fifth Step) { 
         Read Vrms value ;
-        Read pressure % value ; 
+        Read pressure % value ;
+
+## Read pressure (PV = ProcessValue) ##
+pressure = instrument.read_register(40050, 1) # Registernumber, number of decimals (how many decimals?)
+print pressure
+ 
         While Apoint < Vrms <Bpoint { # Not sure how we want to set this up
             If Vrms > upper bound(+2grms) {
                 SetRegister to step down 1% ;
@@ -81,16 +110,12 @@ instrument.write_register(40050, 0, 1) # Registernumber, value, number of decima
 
 
 
-# Example using minimal mod bus module in pySerial with device slave address 247, Starting register 40050 inlcuded
 
-import minimalmodbus
 
-instrument = minimalmodbus.Instrument('COMX', 247) # port name(Need to define), slave address (in decimal)
 
-## Read pressure (PV = ProcessValue) ##
-pressure = instrument.read_register(40050, 1) # Registernumber, number of decimals (how many decimals?)
-print pressure
 
-## Change temperature setpoint (SP) (Stepping the pressure ##
+#How to change the pressure via minimalmodbus:
+
+## Change pressure setpoint (SP) (Stepping the pressure ##
 NEW_PRESSURE = 
 instrument.write_register(40050, NEW_PRESSURE, 1) # Registernumber, value, number of decimals for storage
