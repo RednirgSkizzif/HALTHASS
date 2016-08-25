@@ -1,10 +1,11 @@
-
 # Setting up the code to run the Air Regulator for the HALT/HASS table.
 # Info on the regulator:
 # configure the serial connections (the parameters differs on the device you are connecting to)
 
 import serial
 import minimalmodbus
+
+# Really not sure on this.  Connor do you know what should go here? (lines after ser =)
 
 ser = serial.Serial(
 	port='/dev/ttyUSB1', # Will need to define.
@@ -29,9 +30,15 @@ print pressure
         While Apoint < Vrms <Bpoint { # Not sure how we want to set this up
             If Vrms > upper bound(+2grms) {
                 SetRegister to step down 1% ;
+## Change pressure setpoint (SP) (Stepping the pressure ##
+NEW_PRESSURE = 
+instrument.write_register(40050, NEW_PRESSURE, 1) # Registernumber, value, number of decimals for storage
                 }
              If Vrms < lower bound(-2grms) {
                     SetRegister to step up 1%;
+## Change pressure setpoint (SP) (Stepping the pressure ##
+NEW_PRESSURE = 
+instrument.write_register(40050, NEW_PRESSURE, 1) # Registernumber, value, number of decimals for storage
                     }
          For time > first step, break.
 
@@ -46,9 +53,16 @@ print pressure
         While Apoint < Vrms <Bpoint { # Not sure how we want to set this up
             If Vrms > upper bound(+2grms) {
                 SetRegister to step down 1% ;
+## Change pressure setpoint (SP) (Stepping the pressure ##
+NEW_PRESSURE = 
+instrument.write_register(40050, NEW_PRESSURE, 1) # Registernumber, value, number of decimals for storage
+
                 }
              If Vrms < lower bound(-2grms) {
                     SetRegister to step up 1%;
+## Change pressure setpoint (SP) (Stepping the pressure ##
+NEW_PRESSURE = 
+instrument.write_register(40050, NEW_PRESSURE, 1) # Registernumber, value, number of decimals for storage
                     }
          For time > second step, break.
 
@@ -63,9 +77,15 @@ print pressure
         While Apoint < Vrms <Bpoint { # Not sure how we want to set this up
             If Vrms > upper bound(+2grms) {
                 SetRegister to step down 1% ;
+## Change pressure setpoint (SP) (Stepping the pressure ##
+NEW_PRESSURE = 
+instrument.write_register(40050, NEW_PRESSURE, 1) # Registernumber, value, number of decimals for storage
                 }
              If Vrms < lower bound(-2grms) {
                 SetRegister to step up 1%;
+## Change pressure setpoint (SP) (Stepping the pressure ##
+NEW_PRESSURE = 
+instrument.write_register(40050, NEW_PRESSURE, 1) # Registernumber, value, number of decimals for storage
                     }
          For time > third step, break.            
 
@@ -80,9 +100,15 @@ print pressure
         While Apoint < Vrms <Bpoint { # Not sure how we want to set this up
             If Vrms > upper bound(+2grms) {
                 SetRegister to step down 1% ;
+## Change pressure setpoint (SP) (Stepping the pressure ##
+NEW_PRESSURE = 
+instrument.write_register(40050, NEW_PRESSURE, 1) # Registernumber, value, number of decimals for storage
                 }
              If Vrms < lower bound(-2grms) {
                     SetRegister to step up 1%;
+## Change pressure setpoint (SP) (Stepping the pressure ##
+NEW_PRESSURE = 
+instrument.write_register(40050, NEW_PRESSURE, 1) # Registernumber, value, number of decimals for storage
                     }
          For time > fourth step, break.
 
@@ -97,9 +123,15 @@ print pressure
         While Apoint < Vrms <Bpoint { # Not sure how we want to set this up
             If Vrms > upper bound(+2grms) {
                 SetRegister to step down 1% ;
+## Change pressure setpoint (SP) (Stepping the pressure ##
+NEW_PRESSURE = 
+instrument.write_register(40050, NEW_PRESSURE, 1) # Registernumber, value, number of decimals for storage
                 }
              If Vrms < lower bound(-2grms) {
                     SetRegister to step up 1%;
+## Change pressure setpoint (SP) (Stepping the pressure ##
+NEW_PRESSURE = 
+instrument.write_register(40050, NEW_PRESSURE, 1) # Registernumber, value, number of decimals for storage
                     }
          For time > fifth step, break.
 For time > last step {
@@ -111,11 +143,8 @@ instrument.write_register(40050, 0, 1) # Registernumber, value, number of decima
 
 
 
+#Still need to define values for where we set the pressure.  Do I keep calling that variable new pressure, or call it pressure so that whaen we read out we still read out "pressure"?
 
 
 
-#How to change the pressure via minimalmodbus:
 
-## Change pressure setpoint (SP) (Stepping the pressure ##
-NEW_PRESSURE = 
-instrument.write_register(40050, NEW_PRESSURE, 1) # Registernumber, value, number of decimals for storage
