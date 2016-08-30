@@ -14,7 +14,7 @@ ser = serial.Serial(
 	stopbits=serial.STOPBITS_TWO, # not sure what this is
 	bytesize=serial.SEVENBITS # not sure on this either
 )
-
+#Nate- These are all just definitions for attributes of the serial object. I assume these particular pieces are the ones the regulator #requires
 #Defining the QB3 Regulator (Is there a name on the device that I need to call it instead of instrument?)
 instrument = minimalmodbus.Instrument('COMX', 247) # port name(Need to define), slave address (in decimal)
 
