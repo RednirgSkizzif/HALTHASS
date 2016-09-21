@@ -7,11 +7,16 @@ class PropAir(object):
 		self.ins = mm.Instrument(port,247)
 		self.ins.serial.parity = 'E'
 		self.ins.serial.timeout = .160
-	
-	def setPressure(self,val):
+		
+
+	def setPressure(self,press):
 		#mapping to press needs to be fixed
-		press = val*100
-		self.ins.write_register(49,press)
+		val = press*655
+		self.ins.write_register(49,val)
 	
 	def readPressure(self):
-		return self.ins.read_register(49)/100
+		return self.ins.read_register(49)/655
+	
+	def checkGrms(self)
+		# read grms from arduino
+		#return grms
