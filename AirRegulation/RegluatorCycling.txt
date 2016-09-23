@@ -1,17 +1,21 @@
+#Header for importing modules and setting up device specifics.
 import serial
 import minimalmodbus
 ins = minimalmodbus.Instrument('COM10',247)
-arduino = serial.Instrumer('COM2",)
+arduino = serial.Instrument('COM2",)
+ins.serial.parity = 'E'
+ins.serial.timeout = .160
 
+#Defining variables to used.
 arduino.read_register(x)
 grms = arduino read value
-pressure = 0
+pressure = 0 
 pvalue = pressure*655
 set grms = 0
 n = 1
-set stepsize = 3*n
-set steplength = 10mins*n
-
+set stepsize = 3*	 # set by user
+set steplength = 10mins*	 # set by user
+nmax = 10	# set by user
 
 
 for t in range(0:steplength):
@@ -30,6 +34,12 @@ for t in range(0:steplength):
 		set pvalue = pvalue +1000
 		ins.write_register(49,pvalue)	
 	
+for t in range(steplength:inf):
+	n = n+1
+	if n = (nmax+1)
+		break
+		
+
 
 	
 
