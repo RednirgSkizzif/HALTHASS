@@ -1,50 +1,41 @@
 import serial
 import minimalmodbus
-ins = serial.Instrument('COM10',247)
+ins = minimalmodbus.Instrument('COM10',247)
 arduino = serial.Instrumer('COM2",)
 
+arduino.read_register(x)
+grms = arduino read value
 pressure = 0
 pvalue = pressure*655
 set grms = 0
-set stepsize = 3
-set steplength = 10mins
 n = 1
-arduino.read_register(x)
-grms = arduino read value
-For t < steplength
+set stepsize = 3*n
+set steplength = 10mins*n
+
+
+
 for t in range(0:steplength):
 
-If
-	grms < (stepsize - 1) && grms > (stepsize-3)
-	set pvalue = pvalue + 100
-	ins.write_register(49,pvalue)
-end
-	#below will be python translation
+
 	if(grms < (stepsize - 1) && grms > (stepsize-3)):
 		pvalue = pvalue+100
 		ins.write_register(49,pvalue)
 	else if(grms > (stepsize+1) && grms < (stepsize+3)):
-		#blah blah
-	#continue the else ifs
+		pvalue = pvalue - 100
+		ins.write_register(49,pvalue)
+	else if(grms > (stepsize +3)):
+		set pvalue = pvalue - 1000
+		ins.write_register(49,pvalue)
+	else if(grms < stepsize-3)):
+		set pvalue = pvalue +1000
+		ins.write_register(49,pvalue)	
+	
 
 	
 
 
 
-If grms > (stepsize+1) && grms < (stepsize+3)
-	 set pvalue = pvalue - 100
-	ins.write_register(49,pvalue)
-end
-If grms > (stepsize +3)
-	set pvalue = pvalue - 1000
-	ins.write_register(49,pvalue)
-end
-If grms < stepsize-3)
-	set pvalue = pvalue +1000
-	ins.write_register(49,pvalue)
-end
-end
-n = n+1
-reloop
+
+
 
 ins.read_register(1)
