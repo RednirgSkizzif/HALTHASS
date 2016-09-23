@@ -12,11 +12,25 @@ n = 1
 arduino.read_register(x)
 grms = arduino read value
 For t < steplength
+for t in range(0:steplength):
+
 If
 	grms < (stepsize - 1) && grms > (stepsize-3)
 	set pvalue = pvalue + 100
 	ins.write_register(49,pvalue)
 end
+	#below will be python translation
+	if(grms < (stepsize - 1) && grms > (stepsize-3)):
+		pvalue = pvalue+100
+		ins.write_register(49,pvalue)
+	else if(grms > (stepsize+1) && grms < (stepsize+3)):
+		#blah blah
+	#continue the else ifs
+
+	
+
+
+
 If grms > (stepsize+1) && grms < (stepsize+3)
 	 set pvalue = pvalue - 100
 	ins.write_register(49,pvalue)
