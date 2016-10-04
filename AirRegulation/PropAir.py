@@ -39,11 +39,10 @@ class PropAir(object):
 		def checkGrms(self)
 			# read grms from arduino
 			#return grms
+
+			
 class VibrationTest(PropAir, Cylinders):
 	def __init__(self, PAport, stepsize, steplength, number_of_steps, Cport, Cbaud):
-		self.PAport = PAport
-		self.stepsize = stepsize
-		self.steplength = steplength
-		self.number_of_steps = number_of_steps
-		self.Cport = Cport
-		self.Cbaud = Cbaud
+		PropAir.__init__(self, PAport, stepsize, steplength, number_of_steps)
+		Cylinders.__init__(self, Cport, Cbaud)
+		
