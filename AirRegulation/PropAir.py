@@ -3,7 +3,7 @@ import minimalmodbus as mm
 
 class PropAir(object):
 	
-	def __inti__(self,port):
+	def __init__(self,port):
 		self.ins = mm.Instrument(port,247)
 		self.ins.serial.parity = 'E'
 		self.ins.serial.timeout = .160
@@ -16,6 +16,7 @@ class PropAir(object):
 	
 	def readPressure(self):
 		return self.ins.read_register(49)/655
+		
 	
 	def checkGrms(self)
 		# read grms from arduino
