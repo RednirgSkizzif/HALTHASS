@@ -9,9 +9,9 @@ class PropAir(object):
 		self.ins.serial.timeout = .160
 		
 
-	def setPressure(self,press):
+	def setPressure(self,pressure):
 		#mapping to press needs to be fixed
-		val = press*655
+		val = pressure*655
 		self.ins.write_register(49,val)
 	
 	def readPressure(self):
