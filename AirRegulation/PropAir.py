@@ -3,11 +3,13 @@ import minimalmodbus as mm
 
 class PropAir(object):
 	
-	def __init__(self,port):
+	def __init__(self,port,stepsize,steplength,number of steps):
 		self.ins = mm.Instrument(port,247)
 		self.ins.serial.parity = 'E'
 		self.ins.serial.timeout = .160
-		
+		self.step_size = step_size
+		self.step_length = step_length
+		self.number_of_steps = number_of_steps
 
 	def setPressure(self,pressure):
 		#mapping to press needs to be fixed
