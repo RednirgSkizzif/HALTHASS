@@ -15,7 +15,7 @@ class PropAir(object):
 		self.ins.write_register(49,val)
 	
 	def readPressure(self):
-		return self.ins.read_register(1)/655
+		return self.ins.read_register(49)/655
 	
 	def checkGrms(self)
 		# read grms from arduino
