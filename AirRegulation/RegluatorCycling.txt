@@ -1,20 +1,13 @@
 #Header for importing modules and setting up device specifics.
-import serial
-import minimalmodbus
-ins = minimalmodbus.Instrument('COM10',247)
-arduino = serial.Instrument('COM2",)
-ins.serial.parity = 'E'
-ins.serial.timeout = .160
+import PropAir
 
 #Defining variables to used.
-arduino.read_register(x)
-grms = arduino read value
 pressure = 0 
 pvalue = pressure*655
-set grms = 0
+grms = 0
 n = 1
-set stepsize = 3*	 # set by user
-set steplength = 10mins*	 # set by user
+set stepsize = 3*n	 # set by user
+set steplength = 10mins*n	 # set by user
 nmax = 10	# set by user
 
 
@@ -22,17 +15,17 @@ for t in range(0:steplength):
 
 
 	if(grms < (stepsize - 1) && grms > (stepsize-3)):
-		pvalue = pvalue+100
-		ins.write_register(49,pvalue)
+		pressure = pressure + 1
+		PropAir.setPressure(pressure)
 	else if(grms > (stepsize+1) && grms < (stepsize+3)):
-		pvalue = pvalue - 100
-		ins.write_register(49,pvalue)
+		pressure = pressure - 1
+		PropAir.setPressure(pressure)
 	else if(grms > (stepsize +3)):
-		set pvalue = pvalue - 1000
-		ins.write_register(49,pvalue)
+		pressure = pressure - 3
+		PropAir.setPressure(pressure)
 	else if(grms < stepsize-3)):
-		set pvalue = pvalue +1000
-		ins.write_register(49,pvalue)	
+		pressure = pressure + 3
+		PropAir.setPressure(pressure)
 	
 for t in range(steplength:inf):
 	n = n+1
@@ -45,7 +38,3 @@ for t in range(steplength:inf):
 
 
 
-
-
-
-ins.read_register(1)
