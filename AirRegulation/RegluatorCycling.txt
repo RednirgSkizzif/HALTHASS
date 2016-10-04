@@ -7,7 +7,7 @@ pvalue = pressure*655
 grms = 0
 n = 1
 set stepsize = 3*n	 # set by user
-set steplength = 10mins*n	 # set by user
+set steplength = 600*n	 # set by user
 nmax = 10	# set by user
 
 
