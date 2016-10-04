@@ -4,8 +4,8 @@ import minimalmodbus as mm
 
 	
 class Cylinders(object):
-	def __init__(self,Cport,baud):
-		self.ard = serial.Serial(Cport,baud)
+	def __init__(self,Cport,Cbaud):
+		self.ard = serial.Serial(Cport,Cbaud)
 	def changeFreq(self,f):
 		if (f>50):
 			print "TOFAST"
@@ -39,6 +39,11 @@ class PropAir(object):
 		def checkGrms(self)
 			# read grms from arduino
 			#return grms
-class VibrationTest(PropAir, Cylinders)
-	def __init__(self):
-		pass
+class VibrationTest(PropAir, Cylinders):
+	def __init__(self, PAport, stepsize, steplength, number_of_steps, Cport, Cbaud):
+		self.PAport = PAport
+		self.stepsize = stepsize
+		self.steplength = steplength
+		self.number_of_steps = number_of_steps
+		self.Cport = Cport
+		self.Cbaud = Cbaud
