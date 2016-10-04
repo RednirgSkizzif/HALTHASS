@@ -1,35 +1,34 @@
 #Header for importing modules and setting up device specifics.
+
+
 import PropAir
 
-#Defining variables to used.
-pressure = 0 
-pvalue = pressure*655
-grms = 0
-n = 1
-set stepsize = 3*n	 # set by user
-set steplength = 600*n	 # set by user
-nmax = 10	# set by user
 
 
-for t in range(0:steplength):
+
+n=1
 
 
-	if(grms < (stepsize - 1) && grms > (stepsize-3)):
+
+for t in range(0:step_length):
+
+PropAir.checkGrms = grms
+	if(grms < (step_size - 1) && grms > (step_size-3)):
 		pressure = pressure + 1
 		PropAir.setPressure(pressure)
-	else if(grms > (stepsize+1) && grms < (stepsize+3)):
+	else if(grms > (step_size+1) && grms < (step_size+3)):
 		pressure = pressure - 1
 		PropAir.setPressure(pressure)
-	else if(grms > (stepsize +3)):
+	else if(grms > (step_size +3)):
 		pressure = pressure - 3
 		PropAir.setPressure(pressure)
-	else if(grms < stepsize-3)):
+	else if(grms < step_size-3)):
 		pressure = pressure + 3
 		PropAir.setPressure(pressure)
 	
-for t in range(steplength:inf):
+for t in range(step_length:inf):
 	n = n+1
-	if n = (nmax+1)
+	if n = (number_of_steps+1)
 		break
 		
 
