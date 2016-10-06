@@ -10,26 +10,26 @@ n=1
 
 
 
-for t in range(0:step_length):
+	for t in range(0:n*step_length):
 
-PropAir.checkGrms = grms
-	if(grms < (step_size - 1) && grms > (step_size-3)):
-		pressure = pressure + 1
-		PropAir.setPressure(pressure)
-	else if(grms > (step_size+1) && grms < (step_size+3)):
-		pressure = pressure - 1
-		PropAir.setPressure(pressure)
-	else if(grms > (step_size +3)):
-		pressure = pressure - 3
-		PropAir.setPressure(pressure)
-	else if(grms < step_size-3)):
-		pressure = pressure + 3
-		PropAir.setPressure(pressure)
+		PropAir.checkGrms = grms
+		if(grms < (n*step_size - 1) && grms > (n*step_size-3)):
+			pressure = pressure + 1
+			PropAir.setPressure(pressure)
+		else if(grms > (n*step_size+1) && grms < (n*step_size+3)):
+			pressure = pressure - 1
+			PropAir.setPressure(pressure)
+		else if(grms > (n*step_size +3)):
+			pressure = pressure - 3
+			PropAir.setPressure(pressure)
+		else if(grms < n*step_size-3)):
+			pressure = pressure + 3
+			PropAir.setPressure(pressure)
 	
-for t in range(step_length:inf):
-	n = n+1
-	if n = (number_of_steps+1)
-		break
+		for t in range(n*step_length:inf):
+			n = n+1
+			if n = (number_of_steps+1):
+				break
 		
 
 
