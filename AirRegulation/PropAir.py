@@ -19,7 +19,7 @@ class Cylinders(object):
 
 class PropAir(object):
 	
-		def __init__(self,PAport,stepsize,steplength,number_of_steps):
+		def __init__(self,PAport,step_size,step_length,number_of_steps):
 			self.ins = mm.Instrument(PAport,247)
 			self.ins.serial.parity = 'E'
 			self.ins.serial.timeout = .160
