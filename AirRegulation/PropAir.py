@@ -19,7 +19,7 @@ class Cylinders(object):
 
 class PropAir(object):
 	
-		def __init__(self,PAport,step_size,step_length,number_of_steps,grmsArduinoPort):
+		def __init__(self,PAport,step_size,step_length,number_of_steps,grmsArduinoPort='none'):
 			self.ins = mm.Instrument(PAport,247)
 			self.ins.serial.parity = 'E'
 			self.ins.serial.timeout = .160
@@ -27,7 +27,8 @@ class PropAir(object):
 			self.step_length = step_length #This should be given in minutes
 			self.number_of_steps = number_of_steps
 			#Lines added by Dylan for the grms read
-			self.rmsReader = serial.Serial(grmsArduinoPort,9600)
+			if grmsArduinoPort != 'none' :
+				self.rmsReader = serial.Serial(grmsArduinoPort,9600)
 
 
 		def setPressure(self,pressure):
