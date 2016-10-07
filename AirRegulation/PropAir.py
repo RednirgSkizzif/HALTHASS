@@ -8,7 +8,7 @@ class Cylinders(object):
 		self.ard = serial.Serial(Cport,Cbaud)
 	def changeFreq(self,f):
 		if (f>50):
-			print "TOFAST"
+			print "TOOFAST"
 			return
 
 		deltaT = 1000/f
