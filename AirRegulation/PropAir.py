@@ -23,8 +23,8 @@ class PropAir(object):
 			self.ins = mm.Instrument(PAport,247)
 			self.ins.serial.parity = 'E'
 			self.ins.serial.timeout = .160
-			self.step_size = step_size
-			self.step_length = step_length
+			self.step_size = step_size #This should be given in grms
+			self.step_length = step_length #This should be given in minutes
 			self.number_of_steps = number_of_steps
 
 		def setPressure(self,pressure):
