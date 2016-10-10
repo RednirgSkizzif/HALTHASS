@@ -1,6 +1,5 @@
 import serial 
 import minimalmodbus as mm
-import time
 
 	
 class Cylinders(object):
@@ -43,7 +42,6 @@ class PropAir(object):
 		
 	
 		def checkGrms(self):
-			#time.sleep(0.5)
 			try:
 			 dum = float(self.rmsReader.readline().strip())
 			except ValueError:
@@ -51,8 +49,6 @@ class PropAir(object):
 			val = float(self.rmsReader.readline().strip())
 			self.rmsReader.reset_input_buffer()
 			return val
-			# read grms from arduino
-			#return grms
 
 			
 class VibrationTest(PropAir, Cylinders):
