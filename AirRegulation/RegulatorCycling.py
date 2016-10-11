@@ -25,7 +25,7 @@ for n in range(1,number_of_steps)
 <<<<<<< HEAD:AirRegulation/RegulatorCycling.py
 		elif(grms > (n*step_size+1)  and grms < (n*step_size+3)):
 =======
-		elif(grms > (n*step_size+1) && grms < (n*step_size+3)):
+		elif(grms > (n*step_size+1) and grms < (n*step_size+3)):
 >>>>>>> d2217de1ab4edbf8ec462f2819b3dd1882b3959d:AirRegulation/RegluatorCycling.py
 			pressure = pressure - 1
 			test.setPressure(pressure)
