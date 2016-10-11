@@ -86,7 +86,7 @@ class Tenney(object):
         print 'done'
 
     def cycle(self,start,stop,N,T,cycles):
-        for i in range(0,cycles):
+        for i in range(1,cycles):
             self.step(start,stop,N,T)
             print 'cycle ' + str(i) + ' of ' + str(cycles) + ' is complete'
         #print 'dat boi has cycled away'
