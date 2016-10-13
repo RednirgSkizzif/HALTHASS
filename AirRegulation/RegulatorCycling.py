@@ -7,8 +7,7 @@
 
 
 
-=======
->>>>>>> be6fd82911d20edf46e4c30ac5086e5ad12117ef
+
 import Vibration
 import time
 
@@ -16,19 +15,13 @@ test = Vibration.VibrationTest('COM2',5,1,5,'COM11',9600,grmsPort='COM4')
 step_size = test.step_size
 step_length  =test.step_length
 number_of_steps = test.number_of_steps
-<<<<<<< HEAD
 
-
-pressure = 1
-
-
-=======
 
 
 pressure = 1
 
 
->>>>>>> be6fd82911d20edf46e4c30ac5086e5ad12117ef
+
 for n in range(1,number_of_steps):
         t_end = time.time() + 60 * n * step_length
         while time.time() < t_end:
