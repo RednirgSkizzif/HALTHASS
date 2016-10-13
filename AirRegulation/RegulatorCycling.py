@@ -1,13 +1,3 @@
-<<<<<<< HEAD
-
-
-
-
-        
-
-
-
-
 import Vibration
 import time
 
@@ -15,9 +5,6 @@ test = Vibration.VibrationTest('COM2',5,1,5,'COM11',9600,grmsPort='COM4')
 step_size = test.step_size
 step_length  =test.step_length
 number_of_steps = test.number_of_steps
-
-
-
 pressure = 1
 
 
@@ -61,6 +48,3 @@ for n in range(1,number_of_steps):
                         print x
                         if time.time() >= t_end:
                                 break
-        
-        
-                
