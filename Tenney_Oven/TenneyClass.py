@@ -1,6 +1,5 @@
 import serial
 from arduino import Arduino
-import arduino
 import decimal
 import time
 class Tenney(object):
@@ -9,7 +8,7 @@ class Tenney(object):
     
     def __init__(self,com,ardport):
         self.chamber = serial.Serial(com,baudrate=9600,timeout=1)
-        self.ard = Arduino(ardport)
+        self.ard = arduino(ardport)
         
     def close(self):
         self.chamber.close()
