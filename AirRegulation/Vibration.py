@@ -1,58 +1,104 @@
 import serial 
 import minimalmodbus as mm
+import time
 
-	
+        
 class Cylinders(object):
-	def __init__(self,Cport,Cbaud):
-		self.ard = serial.Serial(Cport,Cbaud)
-	def changeFreq(self,f):
-		if (f>50):
-			print "TOOFAST"
-			return
+        def __init__(self,Cport):
+                self.ard = serial.Serial(Cport,9600)
+        def changeFreq(self,f):
+                if (f>50):
+                        print "TOOFAST"
+                        return
 
-		deltaT = 1000/f
-		self.ard.write(str(deltaT))
-	def close(self):
-		self.ard.close()
+                deltaT = 1000/f
+                self.ard.write(str(deltaT))
+        def close(self):
+                self.ard.close()
 
 
 class PropAir(object):
-	
-		def __init__(self,PAport,step_size,step_length,number_of_steps,grmsArduinoPort='none'):
-			self.ins = mm.Instrument(PAport,247)
-			self.ins.serial.parity = 'E'
-			self.ins.serial.timeout = .160
-			self.ins.serial.baudrate = 19200
-			self.step_size = step_size #This should be given in grms
-			self.step_length = step_length #This should be given in minutes
-			self.number_of_steps = number_of_steps
-			#Lines added by Dylan for the grms read
-			if grmsArduinoPort != 'none' :
-				self.rmsReader = serial.Serial(grmsArduinoPort,9600)
-				self.rmsReader.timeout = 2
+        
+                def __init__(self,PAport,grmsArduinoPort='none'):
+                        self.ins = mm.Instrument(PAport,247)
+                        self.ins.serial.parity = 'E'
+                        self.ins.serial.timeout = .160
+                        self.ins.serial.baudrate = 19200
+                        #Lines added by Dylan for the grms read
+                        if grmsArduinoPort != 'none' :
+                                self.rmsReader = serial.Serial(grmsArduinoPort,9600)
+                                self.rmsReader.timeout = 2
 
 
-		def setPressure(self,pressure):
-			#mapping to press needs to be fixed
-			val = pressure*655
-			self.ins.write_register(49,val)
-	
-		def readPressure(self):
-			return self.ins.read_register(49)/655
-		
-	
-		def checkGrms(self):
-			try:
-			 dum = float(self.rmsReader.readline().strip())
-			except ValueError:
-			 print("Data Fragment Dropped")
-			val = float(self.rmsReader.readline().strip())
-			self.rmsReader.reset_input_buffer()
-			return val
+                def setPressure(self,pressure):
+                        val = pressure*655 #pressure is scaled by a fixed value to map to presure regulator
+                        self.ins.write_register(49,val)
+        
+                def readPressure(self):
+                        return self.ins.read_register(49)/655
+                
+                def checkGrms(self):
+                        try:
+                                dum = float(self.rmsReader.readline().strip())
+                        except ValueError:
+                                print("Data Fragment Dropped")
+                        try:
+                                val = float(self.rmsReader.readline().strip())
+                        except ValueError:
+                                print("Format Error")
+                                self.rmsReader.reset_input_buffer()
+                                val = checkGrms()
+                        self.rmsReader.reset_input_buffer()
+                        return val
 
-			
+                        
 class VibrationTest(PropAir, Cylinders):
-	def __init__(self, PAport, stepsize, steplength, number_of_steps, Cport, Cbaud,grmsPort='none'):
-		PropAir.__init__(self, PAport, stepsize, steplength, number_of_steps,grmsArduinoPort=grmsPort)
-		Cylinders.__init__(self, Cport, Cbaud)
-		
+        def __init__(self, PAport, Cport,grmsPort='none'):
+                PropAir.__init__(self, PAport,grmsArduinoPort=grmsPort)
+                Cylinders.__init__(self, Cport)
+
+        def test(self, step_size, step_length,number_of_steps):
+         
+               for n in range(1,number_of_steps):
+                        pressure = 1
+                        print 'this is test ' + str(n)
+                        t_end = time.time() + (60 * n * step_length)
+                        while time.time() < t_end:
+                                x = self.checkGrms()
+                                print x
+                                print 'd1'
+                                if((x < (n*step_size - 1)) and (x > (n*step_size-3))):
+                                        print 'd2'
+                                        pressure = pressure + 1
+                                        if pressure > 50:
+                                                pressure = 50
+                                        self.setPressure(pressure)
+                                elif((x > (n*step_size+1))  and (x < (n*step_size+3))):
+                                        print 'd3'
+                                        pressure = pressure - 1
+                                        if pressure < 1:
+                                                pressure=1 
+                                        self.setPressure(pressure)
+                                elif(x > (n*step_size +3)):
+                                        print 'd4'
+                                        pressure = pressure - 3
+                                        if pressure < 1:
+                                                pressure=1  
+                                        self.setPressure(pressure)
+                                elif(x < n*step_size-3):
+                                        print 'd5'
+                                        pressure = pressure + 3
+                                        if pressure > 50:
+                                                pressure = 50
+                                        self.setPressure(pressure)
+                                
+                                x = self.checkGrms()
+                                while ((x >= (n * step_size - 1)) and (x <= (n * step_size + 1))):
+                                        print 'd6'
+                                        time.sleep(1)
+                                        x = self.checkGrms()
+                                        print x
+                                        if time.time() >= t_end:
+                                                break 
+               self.setPressure(0)
+               print 'done'
