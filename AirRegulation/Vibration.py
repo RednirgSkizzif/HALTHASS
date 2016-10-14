@@ -77,25 +77,28 @@ class VibrationCycling(PropAir, Cylinders):
                                         if pressure > 50:
                                                 pressure = 50
                                         self.setPressure(pressure)
+                                        time.sleep(1)
                                 elif((x > (n*step_size+1))  and (x < (n*step_size+3))):
                                         print 'd3'
                                         pressure = pressure - 1
                                         if pressure < 1:
                                                 pressure=1 
                                         self.setPressure(pressure)
+                                        time.sleep(1)
                                 elif(x > (n*step_size +3)):
                                         print 'd4'
                                         pressure = pressure - 3
                                         if pressure < 1:
                                                 pressure=1  
                                         self.setPressure(pressure)
+                                        time.sleep(1)
                                 elif(x < n*step_size-3):
                                         print 'd5'
                                         pressure = pressure + 3
                                         if pressure > 50:
                                                 pressure = 50
                                         self.setPressure(pressure)
-                                
+                                        time.sleep(1)
                                 x = self.checkGrms()
                                 while ((x >= (n * step_size - 1)) and (x <= (n * step_size + 1))):
                                         print 'd6'
