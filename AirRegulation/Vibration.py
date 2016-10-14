@@ -70,6 +70,7 @@ class VibrationCycling(PropAir, Cylinders):
                         while time.time() < t_end:
                                 x = self.checkGrms()
                                 print x
+                                # Check USBPIX flags
                                 print 'd1'
                                 if((x < (n*step_size - 1)) and (x > (n*step_size-3))):
                                         print 'd2'
@@ -100,6 +101,7 @@ class VibrationCycling(PropAir, Cylinders):
                                         self.setPressure(pressure)
                                         time.sleep(1)
                                 x = self.checkGrms()
+                                # Check USBPIX flags
                                 while ((x >= (n * step_size - 1)) and (x <= (n * step_size + 1))):
                                         print 'd6'
                                         time.sleep(1)
