@@ -52,16 +52,16 @@ class PropAir(object):
                         return val
 
                         
-class VibrationTest(PropAir, Cylinders):
-        def __init__(self, PAport, Cport,grmsPort='none'):
-                PropAir.__init__(self, PAport,grmsArduinoPort=grmsPort)
+class VibrationCycling(PropAir, Cylinders):
+        def __init__(self, PAport, Cport, grmsPort='none'):
+                PropAir.__init__(self, PAport, grmsArduinoPort=grmsPort)
                 Cylinders.__init__(self, Cport)
 
-        def test(self, step_size, step_length,number_of_steps):
+        def cycle(self, step_size, step_length, number_of_steps):
          
                for n in range(1,number_of_steps):
                         pressure = 1
-                        print 'this is test ' + str(n)
+                        print 'this is cycle ' + str(n)
                         t_end = time.time() + (60 * n * step_length)
                         while time.time() < t_end:
                                 x = self.checkGrms()
