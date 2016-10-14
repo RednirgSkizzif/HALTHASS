@@ -61,7 +61,7 @@ class VibrationCycling(PropAir, Cylinders):
                 self.step_size = step_size
                 self.step_length = step_length
                 self.number_of_steps = number_of_steps
-                self.frequency = frequency
+                Cylinders.changeFreq(self, frequency)
          
                for n in range(1,number_of_steps):
                         pressure = 1
