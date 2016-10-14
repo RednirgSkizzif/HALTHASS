@@ -57,11 +57,11 @@ class VibrationCycling(PropAir, Cylinders):
                 PropAir.__init__(self, PAport, grmsArduinoPort=grmsPort)
                 Cylinders.__init__(self, Cport)
 
-        def cycle(self, step_size, step_length, number_of_steps, frequency):
+        def cycle(self, step_size, step_length, number_of_steps, frequency=20):
                 self.step_size = step_size
                 self.step_length = step_length
                 self.number_of_steps = number_of_steps
-                Cylinders.changeFreq(self, frequency)
+                self.changFreq(frequency)
          
                for n in range(1,number_of_steps):
                         pressure = 1
