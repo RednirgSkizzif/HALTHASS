@@ -6,12 +6,12 @@ import time
 class Cylinders(object):
         def __init__(self,Cport):
                 self.ard = serial.Serial(Cport,9600)
-        def changeFreq(self,f):
-                if (f>50):
+        def changeFreq(self,frequency):
+                if (frequency>50):
                         print "TOOFAST"
                         return
 
-                deltaT = 1000/f
+                deltaT = 1000/frequency
                 self.ard.write(str(deltaT))
         def close(self):
                 self.ard.close()
@@ -57,7 +57,11 @@ class VibrationCycling(PropAir, Cylinders):
                 PropAir.__init__(self, PAport, grmsArduinoPort=grmsPort)
                 Cylinders.__init__(self, Cport)
 
-        def cycle(self, step_size, step_length, number_of_steps):
+        def cycle(self, step_size, step_length, number_of_steps, frequency):
+                self.step_size = step_size
+                self.step_length = step_length
+                self.number_of_steps = number_of_steps
+                self.frequency = frequency
          
                for n in range(1,number_of_steps):
                         pressure = 1
