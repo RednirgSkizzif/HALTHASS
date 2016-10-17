@@ -61,7 +61,7 @@ class VibrationCycling(PropAir, Cylinders):
                 self.step_size = step_size
                 self.step_length = step_length
                 self.number_of_steps = number_of_steps
-                self.changFreq(frequency)
+                self.changeFreq(frequency)
          
                for n in range(1,number_of_steps):
                         pressure = 1
@@ -106,8 +106,7 @@ class VibrationCycling(PropAir, Cylinders):
                                         print 'd6'
                                         time.sleep(1)
                                         x = self.checkGrms()
-                                        print x
                                         if time.time() >= t_end:
                                                 break 
                self.setPressure(0)
-               print 'done'
+               print 'Completed cycling %s steps.' % number_of_steps
