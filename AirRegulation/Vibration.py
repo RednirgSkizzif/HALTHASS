@@ -53,6 +53,7 @@ class PropAir(object):
                 
                 def setGrms(self,Grms):
                         self.Grms = Grms
+                        pressure = 1
                         x = self.checkGrms()
                         if((x < (Grms - 1)) and (x > (Grms-3))):
                                         pressure = pressure + 1
