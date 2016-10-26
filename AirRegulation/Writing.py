@@ -3,13 +3,14 @@ import numpy as np
 import serial,glob,math
 #import pyqtgraph.exporters
 import time,threading,sys,os,fnmatch,shutil
-filename=raw_input("filename:  ")
-
+#filename=raw_input("filename:  ")
+filename="gfile.txt"
 
 
 
 def fWrite(filename,y):
-	try :f = open(filename, 'w', os.O_NONBLOCK);f.flush();f.write(y+'\n');f.close()
+	#try :f = open(filename, 'w', os.O_NONBLOCK);f.flush();f.write(y+'\n');f.close()
+	try :f = open(filename, 'w');f.flush();f.write(y+'\n');f.close()
 	except:print ''
 	
 
@@ -22,7 +23,7 @@ def rms(y):
 def findArduino(boardName,exclude):
 	a = raw_input('Connect %s and press Enter'%boardName)
 	if a is not None:
-        	ACMport  = glob.glob('/dev/ttyA*')
+        	ACMport  = glob.glob('COM12')
         	for i in range(0,len(ACMport)):
                 	if ACMport[i]==exclude:	ACMport[i]=0
                 	try   :	info=serial.Serial(ACMport[i]);address=ACMport[i]
@@ -114,7 +115,7 @@ class SerialReader(threading.Thread):
     		with self.exitMutex : self.exitFlag = True
 
 ########################################################################################
-ArduinoRead , address_read  = findArduino('Arduino_read ',        '0')
+ArduinoRead = serial.Serial('COM12',9600)
 #ArduinoWrite, address_write = findArduino('Arduino_write',address_read)
 
 sps      = 50

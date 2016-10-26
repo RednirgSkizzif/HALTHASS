@@ -1,18 +1,22 @@
 import serial 
 import minimalmodbus as mm
 import time
-
+import Reading as g
+rmsFile = "gfile.txt"
         
 class Cylinders(object):
         def __init__(self,Cport):
                 self.ard = serial.Serial(Cport,9600)
-        def changeFreq(self,frequency):
+	def changeFreq(self,frequency):
                 if (frequency>50):
                         print "TOOFAST"
                         return
 
                 deltaT = 1000/frequency
-                self.ard.write(str(deltaT))
+		print deltaT
+		time.sleep(1)
+		self.ard.flush()
+		self.ard.write(str(deltaT))
         def close(self):
                 self.ard.close()
 
@@ -62,13 +66,12 @@ class VibrationCycling(PropAir, Cylinders):
                 self.step_length = step_length
                 self.number_of_steps = number_of_steps
                 self.changeFreq(frequency)
-        
         	for n in range(1,number_of_steps):
                         pressure = 1
                         print 'this is cycle ' + str(n)
                         t_end = time.time() + (60 * n * step_length)
                         while time.time() < t_end:
-                                x = self.checkGrms()
+                                x = g.getGrms(rmsFile)
                                 print x
                                 # Check USBPIX flags
                                 print 'd1'
@@ -100,12 +103,12 @@ class VibrationCycling(PropAir, Cylinders):
                                                 pressure = 50
                                         self.setPressure(pressure)
                                         time.sleep(1)
-                                x = self.checkGrms()
+                                x = g.getGrms(rmsFile)
                                 # Check USBPIX flags
                                 while ((x >= (n * step_size - 1)) and (x <= (n * step_size + 1))):
                                         print 'd6'
                                         time.sleep(1)
-                                        x = self.checkGrms()
+                                        x = g.getGrms(rmsFile)
                                         print x
                                         if time.time() >= t_end:
                                                 break 

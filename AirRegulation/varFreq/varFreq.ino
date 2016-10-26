@@ -3,7 +3,7 @@
 #define O2 9
 #define O3 6
 #define O4 5
-int t=40;
+int t=20;
 
 void setup() {
   // put your setup code here, to run once:
@@ -21,12 +21,13 @@ void loop() {
   delay(t/2);
   digitalWrite(O1,LOW);
   delay(t/2);
-  digitalWrite(O1,LOW);
+  digitalWrite(O2,LOW);
   delay(t/2);
-   if (Serial.available() > 0) 
+  
+   if (Serial.available()>0) 
    {
         t = (Serial.readString()).toInt();
-    
+      delay(100);
    }
 
 }
