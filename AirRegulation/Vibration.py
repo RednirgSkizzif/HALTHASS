@@ -50,6 +50,42 @@ class PropAir(object):
                                 val = checkGrms()
                         self.rmsReader.reset_input_buffer()
                         return val
+                
+                def setGrms(self,Grms):
+                        self.Grms = Grms
+                        pressure = 1
+                        x = self.checkGrms()
+                        if((x < (Grms - 1)) and (x > (Grms-3))):
+                                        pressure = pressure + 1
+                                        if pressure > 50:
+                                                pressure = 50
+                                        self.setPressure(pressure)
+                                        time.sleep(1)
+                                elif((x > (Grms+1))  and (x < (Grms+3))):
+                                        pressure = pressure - 1
+                                        if pressure < 1:
+                                                pressure=1 
+                                        self.setPressure(pressure)
+                                        time.sleep(1)
+                                elif(x > (Grms+3)):
+                                        pressure = pressure - 3
+                                        if pressure < 1:
+                                                pressure=1  
+                                        self.setPressure(pressure)
+                                        time.sleep(1)
+                                elif(x < Grms-3):
+                                        pressure = pressure + 3
+                                        if pressure > 50:
+                                                pressure = 50
+                                        self.setPressure(pressure)
+                                        time.sleep(1)
+                                x = self.checkGrms()
+                                # Check USBPIX flags
+                                while ((x >= (Grms - 1)) and (x <= (Grms + 1))):
+                                        time.sleep(1)
+                                        x = self.checkGrms()
+                                                              
+                        
 
                         
 class VibrationCycling(PropAir, Cylinders):
@@ -62,8 +98,13 @@ class VibrationCycling(PropAir, Cylinders):
                 self.step_length = step_length
                 self.number_of_steps = number_of_steps
                 self.changeFreq(frequency)
+<<<<<<< HEAD
         
         	for n in range(1,number_of_steps):
+=======
+         
+               for n in range(1,number_of_steps):
+>>>>>>> 330dd8892e9d4768731f831b20d2bea4d79824d5
                         pressure = 1
                         print 'this is cycle ' + str(n)
                         t_end = time.time() + (60 * n * step_length)
@@ -106,8 +147,12 @@ class VibrationCycling(PropAir, Cylinders):
                                         print 'd6'
                                         time.sleep(1)
                                         x = self.checkGrms()
-                                        print x
                                         if time.time() >= t_end:
                                                 break 
+<<<<<<< HEAD
                 self.setPressure(0)
                 print 'done'
+=======
+               self.setPressure(0)
+               print 'Completed cycling %s steps.' % number_of_steps
+>>>>>>> 330dd8892e9d4768731f831b20d2bea4d79824d5

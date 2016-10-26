@@ -21,7 +21,7 @@ void loop() {
   delay(t/2);
   digitalWrite(O1,LOW);
   delay(t/2);
-  digitalWrite(O1,LOW);
+  digitalWrite(O2,LOW);
   delay(t/2);
    if (Serial.available() > 0) 
    {
