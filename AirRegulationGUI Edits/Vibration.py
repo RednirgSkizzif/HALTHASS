@@ -37,7 +37,12 @@ class PropAir(object):
                 def setPressure(self,pressure):
                         val = pressure*655 #pressure is scaled by a fixed value to map to presure regulator
                         self.ins.write_register(49,val)
-			
+			x = self.readPressure()
+			#while x = pressure:
+			#	y = self.checkGrms
+			#	print y
+			#	time.sleep(2)
+			#	x = self.readPressure()
         
                 def readPressure(self):
                         return self.ins.read_register(49)/655
