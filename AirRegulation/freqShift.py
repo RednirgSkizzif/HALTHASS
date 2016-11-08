@@ -9,7 +9,7 @@ class freqShift(object):
 			print "TOFAST"
 			return
 
-		deltaT = 1000/f
+		deltaT = 500/f
 		self.ard.write(str(deltaT))
 	def close(self):
 		self.ard.close()
