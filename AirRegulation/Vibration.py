@@ -12,7 +12,7 @@ class Cylinders(object):
                         print "TOOFAST"
                         return
 
-                deltaT = 1000/frequency
+                deltaT = 500/frequency
 		print deltaT
 		time.sleep(1)
 		self.ard.flush()
