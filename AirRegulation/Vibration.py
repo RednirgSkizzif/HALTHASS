@@ -67,8 +67,9 @@ class VibrationCycling(PropAir, Cylinders):
                 self.step_length = step_length
                 self.number_of_steps = number_of_steps
                 self.changeFreq(frequency)
+		pressure = 1
         	for n in range(1,number_of_steps):
-                        pressure = 1
+                        
                         print 'this is cycle ' + str(n)
                         t_end = time.time() + (60 * n * step_length)
                         while time.time() < t_end:
@@ -79,8 +80,8 @@ class VibrationCycling(PropAir, Cylinders):
                                 if((x < (n*step_size - 1)) and (x > (n*step_size-3))):
                                         print 'd2'
                                         pressure = pressure + 1
-                                        if pressure > 50:
-                                                pressure = 50
+                                        if pressure > 80:
+                                                pressure = 80
                                         self.setPressure(pressure)
                                         time.sleep(1)
                                 elif((x > (n*step_size+1))  and (x < (n*step_size+3))):
@@ -100,8 +101,8 @@ class VibrationCycling(PropAir, Cylinders):
                                 elif(x < n*step_size-3):
                                         print 'd5'
                                         pressure = pressure + 3
-                                        if pressure > 50:
-                                                pressure = 50
+                                        if pressure > 80:
+                                                pressure = 80
                                         self.setPressure(pressure)
                                         time.sleep(1)
                                 x = g.getGrms(rmsFile)
