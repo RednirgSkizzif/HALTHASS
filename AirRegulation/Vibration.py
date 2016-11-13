@@ -62,12 +62,11 @@ class VibrationCycling(PropAir, Cylinders):
                 PropAir.__init__(self, PAport, grmsArduinoPort=grmsPort)
                 Cylinders.__init__(self, Cport)
 	
-	def setGrms(self, Grms, time):
+	def setGrms(self, Grms, length):
 		self.Grms = Grms
-		self.time = t
-		import time
+		self.length = t
+		
 		pressure = 1			
-		x = g.getGrms(rmsFile)
 		t_end = time.time() + (60 * t)
                 while time.time() < t_end:
 			x = g.getGrms(rmsFile)
@@ -96,12 +95,11 @@ class VibrationCycling(PropAir, Cylinders):
 					pressure = 80
 				self.setPressure(pressure)
 				time.sleep(1)
-			x = g.getGrms(rmsFile)
-			while ((x >= (Grms - 1)) and (X <= (Grms + 1))):
+			elif ((x >= (Grms - 1)) and (X <= (Grms + 1))):
 				time.sleep(1)
 				x = g.getGrms(rmsFile)
-				if time.time() >= t_end:
-					break
+				print x
+				
 					
 			
 
@@ -148,14 +146,12 @@ class VibrationCycling(PropAir, Cylinders):
                                                 pressure = 80
                                         self.setPressure(pressure)
                                         time.sleep(3)
-                                x = g.getGrms(rmsFile)
                                 # Check USBPIX flags
-                                while ((x >= (n * step_size - 1)) and (x <= (n * step_size + 1))):
+                                elif ((x >= (n * step_size - 1)) and (x <= (n * step_size + 1))):
                                         print 'd6'
                                         time.sleep(3)
                                         x = g.getGrms(rmsFile)
                                         print x
-                                        if time.time() >= t_end:
-                                                break 
-                self.setPressure(0)
+                                        
+		self.setPressure(0)
                 print 'done'
