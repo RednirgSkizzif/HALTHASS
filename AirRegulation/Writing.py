@@ -109,8 +109,8 @@ class SerialReader(threading.Thread):
 			gt 	= np.sqrt(gRMS[0]**2+gRMS[1]**2+gRMS[2]**2)
 			print str(round(gt,1))
 			fWrite(filename,str(gt))
-			#fgrms_Write(fgrmsName,gt,t_start,self.t_now)
-			fgrms_with_components_Write(fgrmsName,gt,gRMS,t_start,self.t_now)
+			fgrms_Write(fgrmsName,gt,t_start,self.t_now)
+			#fgrmsComponents_Write(fgrmsName,gt,gRMS,t_start,self.t_now)
 			self.count  += M
 			t2	= time.time()
 			difft 	= t2-t1
