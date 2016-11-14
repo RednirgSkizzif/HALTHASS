@@ -31,7 +31,6 @@ def fgrms_Write(fgrmsName,y,t0,t):
 
 def fgrmsComponents_Write(fgrmsComponentsName,ycomp,t0,t):
 	str_t  = str(int(t-t0))
-	str_g  = str(round(y,1))
 	gcomp=np.array([round(item,1) for item in ycomp])
 	fgrms = open(fgrmsComponentsName,'a')
 	fgrms.write(str_t+','+','.join(map(str,gcomp))+' \n')
