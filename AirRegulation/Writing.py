@@ -24,17 +24,18 @@ def facc_Write(y,t):
 
 def fgrms_Write(fgrmsName,y,t0,t):
 	str_t  = str(int(t-t0))
-	str_g  = str(round(y,4))
+	str_g  = str(round(y,1))
 	fgrms = open(fgrmsName,'a')
         fgrms.write(str_t+','+str_g+'\n');fgrms.close()
 
 
-def fgrmsComponents_Write(fgrmsComponentsName,y,ycomp,t0,t):
+def fgrmsComponents_Write(fgrmsComponentsName,ycomp,t0,t):
 	str_t  = str(int(t-t0))
-	str_g  = str(round(y,4))
-	ycomp=np.round(ycomp,4)
+	str_g  = str(round(y,1))
+	gcomp=np.array([round(item,1) for item in ycomp])
 	fgrms = open(fgrmsComponentsName,'a')
-        fgrms.write(str_t+','+str_g+','+','.join(map(str,ycomp[i]))+' \n');fgrms.close()
+	fgrms.write(str_t+','+','.join(map(str,gcomp))+' \n')
+	fgrms.close()
 
 def fWrite(filename,y):
 	try :f = open(filename, 'w');f.flush();f.write(y+'\n');f.close()
@@ -110,7 +111,7 @@ class SerialReader(threading.Thread):
 			print str(round(gt,1))
 			fWrite(filename,str(gt))
 			fgrms_Write(fgrmsName,gt,t_start,self.t_now)
-			#fgrmsComponents_Write(fgrmsName,gt,gRMS,t_start,self.t_now)
+			fgrmsComponents_Write(fgrmsName,gRMS,t_start,self.t_now)
 			self.count  += M
 			t2	= time.time()
 			difft 	= t2-t1
