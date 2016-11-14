@@ -100,7 +100,19 @@ class VibrationCycling(PropAir, Cylinders):
 				x = g.getGrms(rmsFile)
 				print x
 				
-					
+	def CalibCycle(self, frequency)
+		self.changeFreq(frequency)
+		
+		for n in range(1,36):
+			if n < 22:
+				self.setPressure(9.5 + (n*.5))
+				time.sleep(50)
+			elif n >= 22: 
+				self.setPressure(n - 1)
+				time.sleep(50)
+		self.setPressure(0)
+		print 'Calibration cycle is complete.'
+		
 			
 
         def cycle(self, step_size, step_length, number_of_steps, frequency=5):
