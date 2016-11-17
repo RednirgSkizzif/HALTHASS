@@ -100,7 +100,7 @@ class VibrationCycling(PropAir, Cylinders):
 				x = g.getGrms(rmsFile)
 				print x
 				
-	def CalibCycle(self, frequency)
+	def CalibCycle(self, frequency):
 		self.changeFreq(frequency)
 		
 		for n in range(1,36):
@@ -115,53 +115,68 @@ class VibrationCycling(PropAir, Cylinders):
 		
 			
 
-        def cycle(self, step_size, step_length, number_of_steps, frequency=5):
+        def cycle(self, step_size, start_grms, step_length, number_of_steps, frequency=5):
                 self.step_size = step_size
+		self.start_grms = start_grms
                 self.step_length = step_length
                 self.number_of_steps = number_of_steps
                 self.changeFreq(frequency)
-		pressure = 1
-        	for n in range(1,number_of_steps):
+		pressure = 13
+        	for n in range(0,number_of_steps):
                         
-                        print 'this is cycle ' + str(n)
-                        t_end = time.time() + (60 * n * step_length)
+                        print 'this is cycle ' + str(n+1)
+                        t_end = time.time() + (60 * step_length)
                         while time.time() < t_end:
                                 x = g.getGrms(rmsFile)
                                 print x
                                 # Check USBPIX flags
                                 print 'd1'
-                                if((x < (n*step_size - 1)) and (x > (n*step_size-3))):
+                                if((x < (start_grms + (n*step_size - .5))) and (x > (start_grms + (n*step_size-1)))):
                                         print 'd2'
-                                        pressure = pressure + 1
+                                        pressure = pressure + .05
                                         if pressure > 80:
                                                 pressure = 80
                                         self.setPressure(pressure)
-                                        time.sleep(3)
-                                elif((x > (n*step_size+1))  and (x < (n*step_size+3))):
+                                        time.sleep(1)
+                                elif((x > (start_grms + (n*step_size+.5)))  and (x < (start_grms + (n*step_size+1)))):
                                         print 'd3'
-                                        pressure = pressure - 1
+                                        pressure = pressure - .20
                                         if pressure < 1:
                                                 pressure=1 
                                         self.setPressure(pressure)
-                                        time.sleep(3)
-                                elif(x > (n*step_size +3)):
+                                        time.sleep(1)
+                                elif(x > (start_grms + (n*step_size +1))):
                                         print 'd4'
-                                        pressure = pressure - 3
+                                        pressure = pressure - .4
                                         if pressure < 1:
                                                 pressure=1  
                                         self.setPressure(pressure)
-                                        time.sleep(3)
-                                elif(x < (n*step_size-3)):
+                                        time.sleep(1)
+                                elif(x < (start_grms + (n*step_size - 1))):
                                         print 'd5'
-                                        pressure = pressure + 3
+                                        pressure = pressure + .15
                                         if pressure > 80:
                                                 pressure = 80
                                         self.setPressure(pressure)
-                                        time.sleep(3)
+                                        time.sleep(1)
+				elif((x >= (start_grms + (n * step_size - .5))) and (x <= (start_grms + (n * step_size - .2)))):
+					print 'd7'
+                                        pressure = pressure + .015
+                                        if pressure > 80:
+                                                pressure = 80
+                                        self.setPressure(pressure)
+                                        time.sleep(1)
+				elif((x <= (start_grms + (n * step_size + .5))) and (x >= (start_grms + (n * step_size + .2)))):
+					print 'd8'
+                                        pressure = pressure - .075
+                                        if pressure < 1:
+                                                pressure = 1
+                                        self.setPressure(pressure)
+                                        time.sleep(1)
                                 # Check USBPIX flags
-                                elif ((x >= (n * step_size - 1)) and (x <= (n * step_size + 1))):
+                                elif ((x >= (start_grms + (n * step_size - .2))) and (x <= (start_grms + (n * step_size + .2)))):
                                         print 'd6'
-                                        time.sleep(3)
+					time.sleep(1)
                                         x = g.getGrms(rmsFile)
                                         print x
                                         
